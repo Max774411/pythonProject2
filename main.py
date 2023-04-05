@@ -1,6 +1,5 @@
 def f(n):
-    return n*2
-
+    n+n
 
 print("hello")
 print(0)
