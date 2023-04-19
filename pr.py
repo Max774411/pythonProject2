@@ -11,7 +11,10 @@ def draw():
                 canvas.create_rectangle(j * 80, i * 80, (j + 1) * 80, (i + 1) * 80, fill=color)
             if shape == 1:
                 canvas.create_polygon(j*80, i*80,(j+1)*80, (i+1)*80, (j+1)*80,i*80, fill=color, outline='black')
-
+            if shape == 2:
+                canvas.create_polygon( j*80,(i+1)*80,(j+1)*80, (i+1)*80,j*80, i*80, fill=color, outline='black')
+            if shape == 3:
+                canvas.create_polygon( j*80,(i+1)*80,(j+1)*80, (i+1)*80,j*80, i*80, fill=color, outline='black')
 
 board = [[0, 1, 2, 3, 4],
          [5, 6, 7, 8, 9],
