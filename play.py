@@ -1,30 +1,80 @@
-
+import random
 from tkinter import Tk, Canvas
-import numpy as np
 
 
 def draw():
     for i in range(5):
         for j in range(5):
-            color = colors[board[i][j] % 5]
-            shape = board[i][j] // 5
+            color1 = colors[board[i][j][1]]
+            color2 = colors[board[i][j][2]]
+            shape = board[i][j][0]
+            # if shape == 0:
+            #     canvas.create_rectangle(j * 80, i * 80, (j + 1) * 80, (i + 1) * 80, fill=color1)
+            # if shape == 1:
+            #     canvas.create_polygon(j * 80, i * 80, (j + 1) * 80, (i + 1) * 80, (j + 1) * 80, i * 80, fill=color1,
+            #                           outline='black')
+            # if shape == 2:
+            #     canvas.create_polygon(j * 80, (i + 1) * 80, (j + 1) * 80, (i + 1) * 80, j * 80, i * 80, fill=color1,
+            #                           outline='black')
+            # if shape == 3:
+            #     canvas.create_polygon(j * 80, (i + 1) * 80, (j + 1) * 80, i * 80, j * 80, i * 80, fill=color1,
+            #                           outline='black')
+            #
+            # if shape == 4:
+            #     canvas.create_polygon((j + 1) * 80, i * 80, (j + 1) * 80, (i + 1) * 80, j * 80, (i + 1) * 80,
+            #                           fill=color1, outline='black')
+
             if shape == 0:
-                print(color)
-                canvas.create_rectangle(j * 80, i * 80, (j + 1) * 80, (i + 1) * 80, fill=color)
+                canvas.create_polygon(j * 80, i * 80, (j + 1) * 80, (i + 1) * 80, (j + 1) * 80, i * 80, fill=color1,
+                                      outline=color1)
+                canvas.create_polygon(j * 80, (i + 1) * 80, (j + 1) * 80, (i + 1) * 80, j * 80, i * 80, fill=color2,
+                                      outline=color2)
             if shape == 1:
-                canvas.create_polygon(j*80, i*80,(j+1)*80, (i+1)*80, (j+1)*80,i*80, fill=color, outline='black')
-            if shape == 2:
-                canvas.create_polygon( j*80,(i+1)*80,(j+1)*80, (i+1)*80,j*80, i*80, fill=color, outline='black')
-            if shape == 3:
-                canvas.create_polygon(j*80,(i+1)*80,(j+1)*80,i*80,j*80, i*80, fill=color, outline='black')
-            
-            if shape == 4:
-                canvas.create_polygon((j+1)*80,i*80, (j+1)*80, (i+1)*80, j*80,(i+1)*80, fill=color, outline='black')
+                canvas.create_polygon(j * 80, (i + 1) * 80, (j + 1) * 80, i * 80, j * 80, i  *80, fill=color1,
+                                      outline=color1)
+                canvas.create_polygon((j + 1) * 80, i * 80, (j + 1) * 80, (i + 1) * 80, j * 80, (i  +1)  *80,
+                                      fill=color2, outline=color2)
 
-board= np.random.randint(0,24, size = (5,5))
+# board = [[(1, 4, 4), (1, 4, 0), (0, 0, 0), (1, 0, 2), (1, 2, 2)],
+#          [(0, 0, 0), (1, 0, 1), (0, 0, 1), (0, 0, 0), (0, 0, 0)],
+#          [(0, 0, 0), (0, 1, 0), (1, 1, 1), (0, 0, 0), (0, 0, 0)],
+#         [(0, 0, 0), (0, 0, 2), (0, 0, 0), (0, 0, 0), (1, 0, 3)],
+#        [(1, 2, 2), (1, 2, 0), (0, 0, 0), (1, 0, 3), (1, 3, 3)],]
 
-colors = ["white", "black", "green", "blue", "red"]
 
+
+# board = [[(1, 4, 4), (1, 4, 0), (0, 0, 0), (0, 1, 0), (1, 1, 1)],
+#          [(1, 4, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 1, 0)],
+#          [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)],
+#         [(0, 0, 2), (0, 0,0 ), (0, 0, 0), (0, 0, 0), (1, 0, 3)],
+#        [(1, 2, 2), (0, 0, 2), (0, 0, 0), (1, 0, 3), (1, 3, 3)],]
+
+
+board = [[(1, 1, 1), (1, 1, 1), (0, 0, 0), (0, 4, 4), (0, 4, 4)],
+         [(0, 0, 0), (0, 1, 0), (0, 0, 0), (1, 4, 0), (0, 0, 0)],
+         [(0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0), (0, 0, 0)],
+        [(0, 0, 0), (0, 0,2 ), (0, 0, 0), (1, 0, 3), (0, 0, 0)],
+       [(0, 2, 2), (0, 2, 2), (0, 0, 0), (0, 3, 3), (0, 3, 3)],]
+
+# board = []
+# for i in range(5):
+#     line = []
+#     for j in range(5):
+#         line.append((random.randint(0,1),random.randint(0,4),random.randint(0,4)))
+#     board.append(line)
+
+
+def click(event):
+    row = event.y//80
+    col = event.x//80
+    print(row,col,board[row][col])
+
+
+
+
+
+
+colors = ["white", "yellow", "green", "blue", "red"]
 
 root = Tk()
 root.geometry("500x500")
@@ -32,5 +82,5 @@ root.geometry("500x500")
 canvas = Canvas(bg="white", width=400, height=400)
 canvas.pack()
 draw()
-# canvas.create_polygon(22, 33, 50, 55, 33, 100, fill = 'orange', outline ='black')
-root.mainloop()
+canvas.bind("<Button>", click)
+root.mainloop())
