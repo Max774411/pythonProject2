@@ -1,11 +1,19 @@
 from tkinter import Tk, Canvas
 
 
+
+
+
+
 def draw():
+    fnt = ('Helvetica 15 bold')
+
     for i in range(5):
         for j in range(5):
             color1 = colors[board[i][j][1]]
             color2 = colors[board[i][j][2]]
+            ar1 = board[i][j][3]
+            ar2 = board[i][j][4]
             shape = board[i][j][0]
             # if shape == 0:
             #     canvas.create_rectangle(j * 80, i * 80, (j + 1) * 80, (i + 1) * 80, fill=color1)
@@ -26,13 +34,18 @@ def draw():
             if shape == 0:
                 canvas.create_polygon(j * 80, i * 80, (j + 1) * 80, (i + 1) * 80, (j + 1) * 80, i * 80, fill=color1,
                                       outline=color1)
+
                 canvas.create_polygon(j * 80, (i + 1) * 80, (j + 1) * 80, (i + 1) * 80, j * 80, i * 80, fill=color2,
                                       outline=color2)
+                canvas.create_text(j * 80 + 60, i * 80 + 30, text=str(ar1), fill="black", font=fnt)
+                canvas.create_text(j * 80 + 30, i * 80 + 60, text=str(ar2), fill="black", font=fnt)
             if shape == 1:
                 canvas.create_polygon(j * 80, (i + 1) * 80, (j + 1) * 80, i * 80, j * 80, i * 80, fill=color1,
                                       outline=color1)
                 canvas.create_polygon((j + 1) * 80, i * 80, (j + 1) * 80, (i + 1) * 80, j * 80, (i + 1) * 80,
                                       fill=color2, outline=color2)
+                canvas.create_text(j * 80 + 30, i * 80 + 30, text=str(ar1), fill="black", font=fnt)
+                canvas.create_text(j * 80 + 60, i * 80 + 60, text=str(ar2), fill="black", font=fnt)
             if board[i][j][3] != board[i][j][4]:  # диагональ
                 if shape == 0:
                     canvas.create_line((j + 1) * 80, (i + 1) * 80, j * 80, i * 80, fill='black', width=3)
@@ -46,13 +59,13 @@ def draw():
                 canvas.create_line(j * 80, i * 80, (j + 1) * 80, i * 80, fill='black', width=3)
 
 
-board = [[(1, 1, 1, 1, 1), (1, 1, 1, 1, 1), (0, 0, 0, 0, 0), (0, 4, 4, 4, 4), (0, 4, 4, 4, 4), (0, -1, -1, -1, -1)],
-         [(0, 0, 0, 0, 0), (0, 1, 0, 1, 0), (0, 0, 0, 0, 0), (1, 4, 0, 4, 0), (0, 0, 0, 0, 0), (0, -1, -1, -1, -1)],
-         [(0, 0, 0, 0, 0), (0, 0, 0, 0, 0), (0, 0, 0, 0, 0), (0, 0, 0, 0, 0), (0, 0, 0, 0, 0), (0, -1, -1, -1, -1)],
-         [(0, 0, 0, 0, 0), (1, 0, 2, 0, 2), (0, 0, 0, 0, 0), (0, 0, 3, 0, 3), (0, 0, 0, 0, 0), (0, -1, -1, -1, -1)],
-         [(0, 2, 2, 2, 2), (0, 2, 2, 2, 2), (0, 0, 0, 0, 0), (1, 3, 3, 3, 5), (0, 3, 3, 5, 5), (0, -1, -1, -1, -1)],
-         [(0, -1, -1, -1, -1), (0, -1, -1, -1, -1), (0, -1, -1, -1, -1), (0, -1, -1, -1, -1), (0, -1, -1, -1, -1),
-          (0, -1, -1, -1, -1)]]
+board = [[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 4, 4, 4, 4], [0, 4, 4, 4, 4], [0, -1, -1, -1, -1]],
+         [[0, 0, 0, 0, 0], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [1, 4, 0, 4, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+         [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+         [[0, 0, 0, 0, 0], [1, 0, 2, 0, 2], [0, 0, 0, 0, 0], [0, 0, 3, 0, 3], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+         [[0, 2, 2, 2, 2], [0, 2, 2, 2, 2], [0, 0, 0, 0, 0], [1, 3, 3, 3, 5], [0, 3, 3, 5, 5], [0, -1, -1, -1, -1]],
+         [[0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1],
+          [0, -1, -1, -1, -1]]]
 
 
 # board = []
@@ -79,7 +92,9 @@ def click(event):
         else:
             t = 2
     # print(row, col, t, board[row][col])
+    board[row][col][t + 2] = 7
     print(colors[board[row][col][t]], board[row][col][t + 2])
+    draw()
 
 
 colors = ["white", "yellow", "green", "blue", "red"]
