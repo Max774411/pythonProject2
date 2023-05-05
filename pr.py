@@ -92,7 +92,7 @@ def click(event):
         else:
             t = 2
     # print(row, col, t, board[row][col])
-    board[row][col][t + 2] = 7
+    board[row][col][t + 2] = 6
     print(colors[board[row][col][t]], board[row][col][t + 2])
     draw()
 
