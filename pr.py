@@ -1,8 +1,5 @@
-from tkinter import Tk, Canvas
-
-
-
-
+from tkinter import Tk, Canvas, Menu, filedialog
+import json
 
 
 def draw():
@@ -59,11 +56,19 @@ def draw():
                 canvas.create_line(j * 80, i * 80, (j + 1) * 80, i * 80, fill='black', width=3)
 
 
-board = [[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 4, 4, 4, 4], [0, 4, 4, 4, 4], [0, -1, -1, -1, -1]],
-         [[0, 0, 0, 0, 0], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [1, 4, 0, 4, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+# board = [[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 4, 4, 4, 4], [0, 4, 4, 4, 4], [0, -1, -1, -1, -1]],
+#          [[0, 0, 0, 0, 0], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [1, 4, 0, 4, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+#          [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+#          [[0, 0, 0, 0, 0], [1, 0, 2, 0, 2], [0, 0, 0, 0, 0], [0, 0, 3, 0, 3], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+#          [[0, 2, 2, 2, 2], [0, 2, 2, 2, 2], [0, 0, 0, 0, 0], [1, 3, 3, 3, 5], [0, 3, 3, 5, 5], [0, -1, -1, -1, -1]],
+#          [[0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1],
+#           [0, -1, -1, -1, -1]]]
+
+board = [[[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
          [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
-         [[0, 0, 0, 0, 0], [1, 0, 2, 0, 2], [0, 0, 0, 0, 0], [0, 0, 3, 0, 3], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
-         [[0, 2, 2, 2, 2], [0, 2, 2, 2, 2], [0, 0, 0, 0, 0], [1, 3, 3, 3, 5], [0, 3, 3, 5, 5], [0, -1, -1, -1, -1]],
+         [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+         [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
+         [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
          [[0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1],
           [0, -1, -1, -1, -1]]]
 
@@ -76,11 +81,43 @@ board = [[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 4, 4, 4, 4], [0
 #     board.append(line)
 
 
+def open_file():
+    global board
+    filename = filedialog.askopenfilename(title="Открыть файл", initialdir=".")
+    if filename:
+        with open(filename, "r") as read_file:
+            board = json.load(read_file)
+        draw()
+
+
+def save_file():
+    filepath = filedialog.asksaveasfilename()
+    if filepath != "":
+        with open(filepath, "w") as write_file:
+            json.dump(board, write_file)
+    draw()
+
+
+def key_press(event):
+    global p
+
+    if event.char == " ":
+        p = -1
+    elif event.char > "9":
+        p = ord(event.char) - ord("a") + 10
+    else:
+        p = int(event.char)
+
+
 def click(event):
     row = event.y // 80
     col = event.x // 80
     x = event.x % 80
     y = event.y % 80
+    if p < 0:
+        board[row][col][0] = (board[row][col][0] + 1) % 2
+        draw()
+        return
     if board[row][col][0] == 0:
         if x >= y:
             t = 1
@@ -92,18 +129,36 @@ def click(event):
         else:
             t = 2
     # print(row, col, t, board[row][col])
-    board[row][col][t + 2] = 7
+    board[row][col][t + 2] = p
     print(colors[board[row][col][t]], board[row][col][t + 2])
     draw()
 
 
 colors = ["white", "yellow", "green", "blue", "red"]
-
+p = 0
 root = Tk()
+mainmenu = Menu(root)
+root.config(menu=mainmenu)
+
+filemenu = Menu(mainmenu, tearoff=0)
+filemenu.add_command(label="Новый")
+filemenu.add_command(label="Открыть...", command=open_file)
+filemenu.add_command(label="Сохранить...", command = save_file)
+filemenu.add_command(label="Выход")
+
+mainmenu.add_cascade(label="Файл",
+                     menu=filemenu)
+# helpmenu = Menu(mainmenu, tearoff=0)
+# helpmenu.add_command(label="Помощь")
+# helpmenu.add_command(label="О программе")
+# mainmenu.add_cascade(label="Справка",
+#                      menu=helpmenu)
 root.geometry("500x500")
 
 canvas = Canvas(bg="white", width=400, height=400)
 canvas.pack()
 draw()
 canvas.bind("<Button>", click)
+root.bind("<KeyPress>", key_press)
+
 root.mainloop()
