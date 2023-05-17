@@ -113,16 +113,21 @@ def click(event):
     draw()
 
 
+def new_game():
+    global board
+    board = []
+    for i in range(n):
+        line = []
+        for i in range(m):
+            line.append([0, 0, 0, 0, 0])
+        line.append([0, -1, -1, -1, -1])
+        board.append(line)
+    board.append([[0, -1, -1, -1, -1] for i in range(m + 1)])
+
 n = m = 15
 w = 45
 board = []
-for i in range(n):
-    line = []
-    for i in range(m):
-        line.append([0, 0, 0, 0, 0])
-    line.append([0, -1, -1, -1, -1])
-    board.append(line)
-
+new_game()
 colors = ["white", "yellow", "green", "blue", "red"]
 p = 0
 root = Tk()
@@ -130,7 +135,7 @@ mainmenu = Menu(root)
 root.config(menu=mainmenu)
 
 filemenu = Menu(mainmenu, tearoff=0)
-filemenu.add_command(label="Новый")
+filemenu.add_command(label="Новый", command=new_game)
 filemenu.add_command(label="Открыть...", command=open_file)
 filemenu.add_command(label="Сохранить...", command = save_file)
 filemenu.add_command(label="Выход")
