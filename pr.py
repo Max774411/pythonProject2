@@ -1,5 +1,5 @@
-from tkinter import Tk, Canvas, Menu, filedialog
 import json
+from tkinter import Tk, Canvas, Menu, filedialog, ttk
 
 
 def draw():
@@ -26,7 +26,8 @@ def draw():
                                       outline=color1)
                 canvas.create_polygon((j + 1) * w, i * w, (j + 1) * w, (i + 1) * w, j * w, (i + 1) * w,
                                       fill=color2, outline=color2)
-                canvas.create_text(j * w + int(w * 0.375), i * w + int(w * 0.375), text=str(ar1), fill="black", font=fnt)
+                canvas.create_text(j * w + int(w * 0.375), i * w + int(w * 0.375), text=str(ar1), fill="black",
+                                   font=fnt)
                 canvas.create_text(j * w + int(w * 0.75), i * w + int(w * 0.75), text=str(ar2), fill="black", font=fnt)
             if board[i][j][3] != board[i][j][4]:  # диагональ
                 if shape == 0:
@@ -41,6 +42,7 @@ def draw():
                 canvas.create_line(j * w, i * w, (j + 1) * w, i * w, fill='black', width=3)
     canvas.create_rectangle(1, 1, n * w + 1, m * w + 1, width=3, outline="black")
 
+
 # board = [[[1, 1, 1, 1, 1], [1, 1, 1, 1, 1], [0, 0, 0, 0, 0], [0, 4, 4, 4, 4], [0, 4, 4, 4, 4], [0, -1, -1, -1, -1]],
 #          [[0, 0, 0, 0, 0], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [1, 4, 0, 4, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
 #          [[0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0], [0, -1, -1, -1, -1]],
@@ -48,8 +50,6 @@ def draw():
 #          [[0, 2, 2, 2, 2], [0, 2, 2, 2, 2], [0, 0, 0, 0, 0], [1, 3, 3, 3, 5], [0, 3, 3, 5, 5], [0, -1, -1, -1, -1]],
 #          [[0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1], [0, -1, -1, -1, -1],
 #           [0, -1, -1, -1, -1]]]
-
-
 
 
 # board = []
@@ -113,6 +113,17 @@ def click(event):
     draw()
 
 
+def open_menu():
+    window2 = Tk()
+    window2.title("Правила игры")
+    window2.geometry("300x300")
+
+    label = ttk.Label(text="rfe")
+    label.pack()
+
+    window2.mainloop()
+
+
 def new_game():
     global board
     board = []
@@ -122,7 +133,8 @@ def new_game():
             line.append([0, 0, 0, 0, 0])
         line.append([0, -1, -1, -1, -1])
         board.append(line)
-    board.append([[0, -1, -1, -1, -1] for i in range(m + 1)])
+    board.append([[0, -1, -1, -1, -1] for _ in range(m + 1)])
+
 
 n = m = 15
 w = 45
@@ -137,8 +149,8 @@ root.config(menu=mainmenu)
 filemenu = Menu(mainmenu, tearoff=0)
 filemenu.add_command(label="Новый", command=new_game)
 filemenu.add_command(label="Открыть...", command=open_file)
-filemenu.add_command(label="Сохранить...", command = save_file)
-filemenu.add_command(label="Выход")
+filemenu.add_command(label="Сохранить...", command=save_file)
+
 
 mainmenu.add_cascade(label="Файл",
                      menu=filemenu)

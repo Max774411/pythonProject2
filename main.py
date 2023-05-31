@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas, Menu, filedialog
+from tkinter import Tk, Canvas, Menu, filedialog, ttk
 import json
 
 
@@ -155,6 +155,19 @@ def new_game():
         line.append([0, -1, -1, -1, -1])
         board.append(line)
     board.append([[0, -1, -1, -1, -1] for i in range(m + 1)])
+def open_menu():
+    window2 = Tk()
+    window2.title("Правила игры")
+    window2.geometry("600x300")
+
+    label = ttk.Label(window2, text="1. Нужно закрысить всё поле так, чтобы ни одна из его частей не имела соседа с таким же цветом"
+                                    '\n' "2. Наличие белого цвета на игровом поле не допускается" '\n'"3."
+                                    " для изменения цвета участков игрового поля используйте клавиши 0,1,2,3,4 ")
+
+
+    label.pack()
+
+    window2.mainloop()
 
 
 color = 0
@@ -172,7 +185,8 @@ filemenu = Menu(mainmenu, tearoff=0)
 filemenu.add_command(label="Новый", command=new_game)
 filemenu.add_command(label="Открыть...", command=open_file)
 filemenu.add_command(label="Сохранить...", command = save_file)
-filemenu.add_command(label="Выход")
+filemenu.add_command(label="Правила игры", command=open_menu)
+
 
 mainmenu.add_cascade(label="Файл",
                      menu=filemenu)
